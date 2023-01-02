@@ -1,0 +1,204 @@
+{
+    "swagger": "2.0", 
+    "info": {
+        "version":  "1.0.0",
+        "title": "CARBON8R", 
+        "description": "Carbon Emissions Calculator Tool for Travel",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "localhost:3000",
+    "basepath": "/",
+    "tags": [
+    {
+        "name": "Erin's Capstone Project",
+        "description": "API endpoints for database manipulation"
+    } 
+    ],
+    "schemes": ["http"],
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+    "paths": {
+        "/users/all":{ 
+            "post": {
+                "tags": ["POST"
+            ],
+            "summary": "", 
+            "parameters":[],
+            "responses":{ 
+                "200": {
+                    "namesList": []
+                } 
+            }
+        }
+    },
+    "/characters/getAll":{ 
+            "get": {
+                "tags": ["GET All Characters"
+            ],
+            "summary": "Returns a list of characters from the databasethat appear in Star Wars Films", 
+            "parameters":[],
+            "responses":{ 
+                "200": {
+                    "response": []
+                } 
+            }
+        }
+    },
+    "/characters/one":{ 
+            "get": {
+                "tags": ["GET Single Character"
+            ],
+            "summary": "Return data for a single character by the ID number, from the database", 
+            "parameters":[{
+                "name": "id",
+                "in": "query",
+                "description": "character local ID number as an integer e.g. 5"
+            }],
+            "responses":{ 
+                "200": {
+                    "response": []
+                } 
+            }
+        }
+    },
+    "/characters/DeleteByID":{ 
+            "delete": {
+                "tags": ["DELETE Single Character"
+            ],
+            "summary": "Delete data for a single character by the ID number", 
+            "parameters":[{
+                "name": "id",
+                "in": "query",
+                "description": "character local ID number as an integer e.g. 4"
+            }],
+            "responses":{ 
+                "200": {
+                    "response": []
+                } 
+            }
+        }
+    },
+    "/characters/UpdateDroids":{ 
+            "post": {
+                "tags": ["UPDATE by species"
+            ],
+            "summary": "Update gender data for all droid characters", 
+            "parameters":[{
+                "name": "gender",
+                "in": "query",
+                "description": "single word gender descriptor e.g. non-binary"
+            }],
+            "responses":{ 
+                "200": {
+                    "response": []
+                } 
+            }
+        }
+    },
+    "/characters/updateFilmNames":{ 
+            "post": {
+                "tags": ["UPDATE film titles"
+            ],
+            "summary": "Adds film titles to character data", 
+            "parameters":[],
+            "responses":{ 
+                "200": {
+                    "response": []
+                } 
+            }
+        }
+    },
+    "/films/all":{ 
+            "post": {
+                "tags": ["POST films"
+            ],
+            "summary": "Loads films data into the database for Episodes 1-6 of Star Wars Films. Required before any GET operations", 
+            "parameters":[],
+            "responses":{ 
+                "200": {
+                    "response": []
+                } 
+            }
+        }
+    },
+    "/films/getAll":{ 
+            "get": {
+                "tags": ["GET films"
+            ],
+            "summary": "Retrieves all data for Episodes 1-6 of Star Wars Films from database.", 
+            "parameters":[],
+            "responses":{ 
+                "200": {
+                    "response": []
+                } 
+            }
+        }
+    },
+    "/films/one":{ 
+            "get": {
+                "tags": ["GET one film"
+            ],
+            "summary": "Retrieves data for selected film", 
+            "parameters":[{
+                "name": "episode",
+                "in": "query",
+                "description": "single integer representing an episode number between 1 and 6 inclusive."
+            }],
+            "responses":{ 
+                "200": {
+                    "response": []
+                } 
+            }
+        }
+    },
+    "/films/addNew": {
+        "post": {
+        "tags": [
+        "Creation Service"
+        ],
+        "summary": "Add a new film to the database",
+        "parameters": [
+        {
+        "in": "body",
+        "name": "film",
+        "description": "film body with details to create",
+        "schema" : {
+            "type": "object",
+            "required": [
+                "title",
+                "episode_id",
+                "opening_crawl",
+                "director",
+                "release_date"
+            ],
+            "properties" : {
+                "title": {
+                    "type": "string"
+                },
+                "episode_id" : {
+                    "type": "number"
+                },
+                "opening_crawl" : {
+                    "type": "string"
+                },
+                "director" : {
+                    "type": "string"
+                },
+                "release_date" : {
+                    "type": "string"
+                }
+            }
+        }}],
+        "responses": {
+        "200": {
+        "description": "film added successfully"
+                        }
+                    }
+                }
+            }
+}
+}
+      
