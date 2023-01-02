@@ -46,10 +46,24 @@ let dbGetAllUsers = async (req, res)=>{ // asc by user iD
     });
 }
 
+let dbDeleteUser = async (req, res)=> {
+    let user_id = req.params.user_id
+    return new Promise((resolve, reject) => {
+        let sqlQuery = `DELETE FROM users WHERE user_id = ${user_id}`;
+        
+        sql.query(sqlQuery, (err, result, field) => {
+            if(err) return reject(err);
+            resolve(Object.values((result)));
+        });
+        return result;
+    });
+}
+
 
 
 module.exports = {
     dbGetUserByUserName,
     dbRegisterUser,
-    dbGetAllUsers
+    dbGetAllUsers,
+    dbDeleteUser,
 }

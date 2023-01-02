@@ -1,8 +1,6 @@
 import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-// import Container from '@mui/material/Container';
+
 import { createTheme, ThemeProvider} from '@mui/material/styles';
 import { Button } from '@mui/material'
 import Card from '@mui/material/Card';
@@ -10,7 +8,7 @@ import CardContent from '@mui/material/CardContent';
 import {useContext, useEffect, useState} from 'react'
 import TextField from '@mui/material/TextField';
 import axios from 'axios'
-import { CurrentUserContext } from '../App';
+import { CurrentUserContext, UsersContext } from '../App';
 import { useNavigate } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -45,7 +43,7 @@ export default function Login() {
     let {setCurrentUser} = useContext(CurrentUserContext)
     const [Lemail, setLemail] = useState('')
     const [LPassWord, setLPassWord] = useState('') 
-    const [users, setUsers] = useState('')
+    const {users, setUsers} = useContext(UsersContext)
     const [validateMsg, setValidateMsg] = useState('')
     let navigate = useNavigate();
     const classes = useStyles();

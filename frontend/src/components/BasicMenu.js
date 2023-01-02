@@ -68,7 +68,7 @@ export default function BasicMenu() {
     }
 
     const handleMenuClickUsers = () => {
-        navigate('/users');
+        navigate('/admin');
         handleClose()
     }
 

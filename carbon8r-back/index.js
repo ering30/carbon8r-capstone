@@ -26,13 +26,9 @@ app.listen(port, () => {
 })
 
 // ---------- routes
-let vehicleRoute = require('./routes/vehicleRoute')
-let flightsRoute = require('./routes/FlightsRoute')
 let journeyRoutes = require ('./routes/JourneyRoutes')
 let userRoutes = require ('./routes/UserRoutes')
 
-app.use('/vehicleCalc', vehicleRoute)
-app.use('/flightCalc', flightsRoute)
 app.use('/journeys', journeyRoutes)
 app.use('/users', userRoutes)
 

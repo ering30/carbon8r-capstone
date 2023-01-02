@@ -66,7 +66,7 @@ function App() {
               <Route path='/profile' element={<Profile />} />
               <Route path='/calculator' element={<Calculator />} />
               <Route path='/info' element={<Info />} />
-              <Route path='/users' element={<Admin />} />
+              <Route path='/admin' element={<Admin />} />
               
               <Route path='/results/vehicle' element={<Results />} />
               <Route path='/results/flight' element={<ResultsFlight />} />

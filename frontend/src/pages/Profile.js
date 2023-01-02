@@ -37,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
         color: '#FAFAFA',
         width: '50%',
         height: '3rem'
+    },
+    mainCard: {
+        backgroundColor: '#fafbed',
     }
 }));
 
@@ -75,7 +78,6 @@ export default function Profile() {
                     pt: 3,
                     pb: 3,
                     borderRadius: 3,
-                    backgroundopacity: '80%',
                     minWidth: 275,
                     maxWidth: '100%',
                     margin: '0 auto'

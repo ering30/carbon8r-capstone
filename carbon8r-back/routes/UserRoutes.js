@@ -16,4 +16,8 @@ router.post("/register", (req, res) => {
     userController.registerUser(req,res)
 })
 
+router.delete('/deleteOneUser/:user_id', (req,res) => { // to be tested
+    userController.deleteOneUser(req, res)
+})
+
 module.exports = router;

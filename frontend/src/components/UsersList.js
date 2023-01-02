@@ -2,16 +2,14 @@ import React, { useState, useEffect, useContext } from 'react';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import Grid from '@mui/material/Grid';
-import { Button } from '@material-ui/core';
 import { useNavigate } from 'react-router-dom';
 
-import JourneyListItem from './JourneyListItem';
+import { UsersContext } from '../App';
+import UserListItem from './UsersListItem';
 
 //-----styling
 import { makeStyles } from '@material-ui/core/styles';
-import GetStartedButton from './GetStartedButton';
 
-// -----------styling
 const useStyles = makeStyles((theme) => ({
     userList: {
         margin: '0 auto'
@@ -34,18 +32,11 @@ const useStyles = makeStyles((theme) => ({
 export default function UsersList() {
     const classes = useStyles();
     const navigate = useNavigate();
-    const {allUsers, setAllUsers} = useState({});
 
-     //get & set the users
-    useEffect(()=> {
-        // check state here in dependency []
-        axios.get(`http://localhost:4000/users/all`)
-        .then(response=> {setAllUsers(response.data);})
-        .catch(error => {console.log(error)})
-        },[allUsers])
-    
-    // get journey context
-
+    // get users context
+    const usersContextPayload = useContext(UsersContext)
+    const { users, setUsers } = usersContextPayload
+    console.log(users);
 
     /// ----------
     return (
@@ -58,8 +49,8 @@ export default function UsersList() {
             </h6>
             
                 <List className={classes.userList}>
-                    {allUsers.map(user => (
-                        <JourneyListItem 
+                    {users.map(user => (
+                        <UserListItem 
                             key={user.user_id}
                             callbacks={setUsers}
                             user={user}
