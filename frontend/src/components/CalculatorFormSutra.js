@@ -39,10 +39,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CalculatorFormSutra(props) {
     // const {number1, setNumber1} = useState('')
-    const [origin, setOrigin] = useState('')
-    const [destination, setDestination] = useState('')
-    const [distance, setDistance] = useState('')
-    const [directionsResponse, setDirectionsResponse] = useState(null)
+    // const [origin, setOrigin] = useState('')
+    // const [destination, setDestination] = useState('')
+    const [distance, setDistance] = useState(0)
+    const [directionsResponse, setDirectionsResponse] = useState({})
 
     /** @type React.MutableRefObject<HTMLInputElement> */
     const originRef = useRef()
@@ -68,24 +68,25 @@ export default function CalculatorFormSutra(props) {
         if (originRef.current.value === '' || destinationRef.current.value === '') {
             return
         }
-        console.log("origin ref", originRef.current.value);
         // eslint-disable-next-line no-undef
         const directionsService = new google.maps.DirectionsService()
         const results = await directionsService.route({
-            origin: origin,
-            destination: destination,
+            origin: originRef.current.value,
+            destination: destinationRef.current.value,
             // eslint-disable-next-line no-undef
             travelMode: google.maps.TravelMode.DRIVING,
         })
         setDirectionsResponse(results)
-        setDistance(results.routes[0].legs[0].distance.text)
+        setDistance((results.routes[0].legs[0].distance.value)/1000)
+        console.log("results after calculate" , results);
     }
     
     function clearRoute() {
         setDirectionsResponse(null)
         setDistance('')
-        setOrigin('')
-        setDestination('')
+
+        originRef.current.value = ''
+        destinationRef.current.value = ''
     }
 
     if (!isLoaded) {
@@ -95,6 +96,8 @@ export default function CalculatorFormSutra(props) {
     return (
 
             <>
+            {distance !== 0? <h1>distance {distance} </h1>: null}
+            {Object.entries(directionsResponse).length !== 0 ? <h1>directionsResponse first waypoint: {directionsResponse.geocoded_waypoints[0].place_id} </h1> : null}
             <ThemeProvider theme={theme}>
                 <Stack direction="row" spacing={2} justifyContent='space-between' sx={{margin: '0 auto', width: '50%'}}>
                     <Autocomplete>
