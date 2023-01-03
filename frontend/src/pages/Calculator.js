@@ -48,14 +48,19 @@ export default function Calculator() {
     }
     return (
         <div className={classes.pageWrapper}>
-            <h1 className={classes.titleInfo}>SELECT TRANSPORT MODE TO BEGIN</h1>
-            <Button className={classes.vehicleButton} variant="contained" onClick={handleCarCalculator}>Car</Button>
-            <Button className={classes.vehicleButton} variant="contained" onClick={handleBusCalculator}>Bus</Button>
-            <Button className={classes.vehicleButton} variant="contained" onClick={handleTrainCalculator}>Train</Button>
-            <Button className={classes.vehicleButton} variant="contained" onClick={handlePlaneCalculator}>Airplane</Button>
+            
+            {calcType === '' ? 
+            <>
+                <h1 className={classes.titleInfo}>SELECT TRANSPORT MODE TO BEGIN</h1>
+                <Button className={classes.vehicleButton} variant="contained" onClick={handleCarCalculator}>Car</Button>
+                <Button className={classes.vehicleButton} variant="contained" onClick={handleBusCalculator}>Bus</Button>
+                <Button className={classes.vehicleButton} variant="contained" onClick={handleTrainCalculator}>Train</Button>
+                <Button className={classes.vehicleButton} variant="contained" onClick={handlePlaneCalculator}>Airplane</Button>
+            </>: null}
+            
             {calcType === 'Car-Size-Average' || calcType === 'Bus-LocalAverage' || calcType === 'Train-National' ? 
             <>
-            <h1 className={classes.titleInfo}>ENTER YOUR TRAVEL DISTANCE</h1>
+            <h1 className={classes.titleInfo}>ENTER YOUR START AND END LOCATIONS</h1>
             <CalculatorFormSutra vehicleType={calcType}/>
             </>
             : calcType === 'plane' ?

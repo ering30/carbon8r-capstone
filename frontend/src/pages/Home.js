@@ -1,5 +1,5 @@
-import React, { Component, useState } from 'react'
-import { Button } from '@material-ui/core'
+import React from 'react'
+
 
 // import ErrorBoundary from '../components/ErrorBoundary';
 
@@ -12,6 +12,7 @@ import '@fontsource/roboto/700.css';
 import { Container, Box } from '@material-ui/core';
 import GetStartedButton from '../components/GetStartedButton';
 import { useNavigate } from 'react-router-dom';
+
 // import Login from '../components/LoginForm';
 
 const useStyles = makeStyles((theme) => ({

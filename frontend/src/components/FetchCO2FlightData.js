@@ -34,7 +34,7 @@ function FetchCO2FlightData(props) {
         headers: {
             'content-type': 'application/x-www-form-urlencoded',
             Authorization: 'Bearer fQ98oU704xFvsnXcQLVDbpeCJHPglG1DcxiMLKfpeNEMGumlbzVf1lCI6ZBx',
-            'X-RapidAPI-Key': '1fe01a0209msha5fef6f92cde9a7p1763f4jsn01ad7a24385e',
+            'X-RapidAPI-Key': process.env.REACT_APP_CARBON_SUTRA_API_KEY,
             'X-RapidAPI-Host': 'carbonsutra1.p.rapidapi.com'
         },
         data: encodedParams
