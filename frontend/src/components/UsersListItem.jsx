@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react'
-import { Dialog, ListItem } from '@material-ui/core';
+import React, { useContext } from 'react'
+import { ListItem } from '@material-ui/core';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 // import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -19,7 +19,7 @@ import { UsersContext } from '../App';
 
 const deleteUser = ((UsersContextPayload, user, navigate)=> {
     
-    const { users, setUsers} = UsersContextPayload
+    const { users, setUsers} = UsersContextPayload // gets users from login form
     const updatedUsersArray = users.filter((users) => users.user_id !== user.user_id)
 
     axios.delete(`http://localhost:4000/users/deleteOneUser/${user.user_id}`)
@@ -36,7 +36,7 @@ function UserListItem(props) {
 
     // get journey context
     const UsersContextPayload = useContext(UsersContext)
-    const { users, setUsers } = UsersContextPayload // gets users from login form
+    const { users, setUsers } = UsersContextPayload 
 
     //set variables for functions
     let DialogTitleText = "Delete this user?"

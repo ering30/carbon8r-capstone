@@ -34,7 +34,7 @@ function FetchCO2FlightData(props) {
         headers: {
             'content-type': 'application/x-www-form-urlencoded',
             Authorization: 'Bearer fQ98oU704xFvsnXcQLVDbpeCJHPglG1DcxiMLKfpeNEMGumlbzVf1lCI6ZBx',
-            'X-RapidAPI-Key': '1fe01a0209msha5fef6f92cde9a7p1763f4jsn01ad7a24385e',
+            'X-RapidAPI-Key': process.env.REACT_APP_CARBON_SUTRA_API_KEY,
             'X-RapidAPI-Host': 'carbonsutra1.p.rapidapi.com'
         },
         data: encodedParams
@@ -49,13 +49,20 @@ function FetchCO2FlightData(props) {
         });
     }
 
+    let origin = flightData.airport_from
+    let destination = flightData.airport_to
+
     return (
         <>
         <div>
             <Button className={classes.fetchButton} variant="contained" onClick={apiGet}>CARBON8!</Button>
         </div>
         <div>
-            {{flightData} != 0 ? <ErrorBoundary><FlightResultComponent data={flightData}/></ErrorBoundary> : null}
+            {{flightData} != 0 ? 
+            <ErrorBoundary>
+                <FlightResultComponent data={flightData} origin={origin} destination ={destination}/>
+            </ErrorBoundary> 
+            : null}
         </div>
         </>
     );

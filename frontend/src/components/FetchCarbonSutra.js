@@ -10,14 +10,16 @@ const useStyles = makeStyles((theme) => ({
     fetchButton: {
         margin: '2%',
         background: '#357a38',
-        color: '#FAFAFA'
+        color: '#FAFAFA',
+        width: '50%',
     }
 }));
 
 function FetchCarbonSutra(props) {
     const classes = useStyles();
     const [carbon, setCarbon] = useState('');
-    
+
+    const anchor = document.querySelector("#calc-result")
 
 const encodedParams = new URLSearchParams();
 encodedParams.append("vehicle_type", props.vehicle);
@@ -31,7 +33,7 @@ const options = {
     headers: {
         'content-type': 'application/x-www-form-urlencoded',
         Authorization: 'Bearer fQ98oU704xFvsnXcQLVDbpeCJHPglG1DcxiMLKfpeNEMGumlbzVf1lCI6ZBx',
-        'X-RapidAPI-Key': '1fe01a0209msha5fef6f92cde9a7p1763f4jsn01ad7a24385e',
+        'X-RapidAPI-Key': process.env.REACT_APP_CARBON_SUTRA_API_KEY,
         'X-RapidAPI-Host': 'carbonsutra1.p.rapidapi.com'
     },
     data: encodedParams
@@ -43,24 +45,23 @@ axios.request(options).then(function (response) {
     setCarbon(response.data.data)
 }).catch(function (error) {
 	console.error(error);
-});
+})
 }
+
+let requestOrigin = props.googleResponse.request.origin.query
+let requestDestination= props.googleResponse.request.destination.query
 
     return (
     <div>
-        <br />
         <Button className={classes.fetchButton} variant="contained" onClick={apiGet}>CARBON8!</Button>
-        <br />
-        <div>
             {{carbon} != 0 ? 
             <ErrorBoundary>
             <React.Suspense fallback={<CircularLoading/>} >
-            <LazyResult data={carbon}/>
+            <LazyResult data={carbon} origin={requestOrigin} destination ={requestDestination}/>
             </React.Suspense>
             </ErrorBoundary>
             : null
             }
-        </div>
     </div>
     );
 }

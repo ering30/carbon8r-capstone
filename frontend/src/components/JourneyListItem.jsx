@@ -14,42 +14,12 @@ import AlertDialog from './Dialog';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 import { UserJourneysContext } from '../pages/Profile';
+import PopupDialog from './PopupDialog';
 
-//delete the journey from DB, in handleDelete inside Dialog 
-const deleteJourney = ((contextPayload, journey, navigate)=> {
-    const { journeys, setJourneys } = contextPayload
-    const updatedJourneysArray = journeys.filter((jou) => jou.journey_id !== journey.journey_id)
-
-    axios.delete(`http://localhost:4000/journeys/deleteOneJourney/${journey.journey_id}`)
-    .then(navigate('/profile'))
-    .catch(error => {console.log(error)})
-    .finally(setJourneys(updatedJourneysArray))
-    })
-
-// // update context after delete, in handleDelete inside Dialog HOC
-// const refreshJourneys = (userID, setJourneys) => {
-//     axios.get(`http://localhost:4000/journeys/allUserJourneys/${userID}`)
-//         .then(response=> {setJourneys(response.data);})
-//         .catch(error => {console.log(error)})
-// }
-
-// // onClick function
-// const handleDelete = (deletePayload) => {
-//     const {
-//         callbacks: {
-//             navigate,
-//             setJourneys,
-//         },
-//         journey, 
-//         userID,
-//     } = deletePayload
-
-//     deleteJourney(journey, navigate)
-//     refreshJourneys(userID, setJourneys);
-// }
 
 function JourneyListItem(props) {
     const navigate = useNavigate();
+    const [showDialog, setShowDialog] = useState(false)
     const { journey } = props
 
     // get journey context
@@ -61,21 +31,24 @@ function JourneyListItem(props) {
     const currentUser = JSON.parse(currentUserString);
     const userID= currentUser.user_id
 
-    //set variables for functions
-    let DialogTitleText = "Delete this journey?"
-    let DialogContentText = "If you proceed, you will lose this information. You can add new journeys using the calculator."
 
+
+        //set variables for functions
     let kgEmissions = journey.g_CO2 / 1000
 
-    // const deletePayload = {
-    //     callbacks: {
-    //         navigate,
-    //         setJourneys
-    //     },
-    //     journey,
-    //     journeys,
-    //     userID,
-    // }
+    //delete the journey from DB, in handleDelete inside Dialog 
+    const deleteJourney = ((contextPayload, journey, navigate)=> {
+    const { journeys, setJourneys } = contextPayload
+    const updatedJourneysArray = journeys.filter((jou) => jou.journey_id !== journey.journey_id)
+
+    axios.delete(`http://localhost:4000/journeys/deleteOneJourney/${journey.journey_id}`)
+    .then(
+        setShowDialog(true))
+    .catch(error => {console.log(error)})
+    .finally(setJourneys(updatedJourneysArray))
+    })
+
+    // navigate('/profile')
 
     return (
         <ListItem>
@@ -91,7 +64,7 @@ function JourneyListItem(props) {
             <ListItemText
                 primary={`${journey.nickname} : ${kgEmissions} kgCO2`} 
                 secondary={
-                    journey.vehicle_type !== 'airplane' && journey.origin !== 'undefined' ? `${journey.origin_name} to ${journey.destination_name}: ${journey.tot_distance}km` 
+                    journey.vehicle_type !== 'airplane' && journey.origin_name !== 'undefined' ? `${journey.origin_name} to ${journey.destination_name}: ${journey.tot_distance}km` 
                     : journey.vehicle_type !== 'airplane' && journey.origin === 'undefined' ? `${journey.tot_distance}km`
                     : journey.vehicle_type === 'airplane' ? `${journey.origin_name} to ${journey.destination_name}`
                     : ' '}
@@ -100,10 +73,18 @@ function JourneyListItem(props) {
                 callbacks={{
                     handleOkAction: () => deleteJourney(contextPayload, journey, navigate),
                 }}
-                // journeyID={journey.journey_id} //entity id
-                DialogContentText={DialogContentText} 
-                DialogTitleText={DialogTitleText}
+                DialogContentText={"If you proceed, you will lose this information. You can add new journeys using the calculator."} 
+                DialogTitleText={"Delete this journey?"}
             />
+            { showDialog ? 
+            <PopupDialog 
+                callbacks={{
+                    handleOkAction: () => navigate('/profile'),
+                }}
+                DialogContentText={"Click OK to return to your profile."} 
+                DialogTitleText={"Delete successful"}
+            />
+            : null}
 
         </ListItem>
     )

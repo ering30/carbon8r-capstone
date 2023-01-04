@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
     appbar: {
         background: "none",
         fontFamily: 'Unbounded',
+        zIndex: 1,
     },
     icon: {
         color: '#357a38',

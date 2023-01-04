@@ -20,7 +20,7 @@ const registerUser = async (req,res)=>{  //works
     res.send(data)
 }
 
-const deleteOneUser = async (req,res)=>{  // to be tested
+const deleteOneUser = async (req,res)=>{  // works
     console.log("controller here")
     let data = await dbUserServices.dbDeleteUser(req, res)
     res.send(data)
