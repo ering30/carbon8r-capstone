@@ -14,7 +14,7 @@ router.get("/allUserJourneys/:userID", (req,res) => { // works
     journeyController.getUserJourneys(req, res)
 })
 
-router.get("/allJourneys", (req,res) => { //works -- for admins??
+router.get("/allJourneys", (req,res) => { //works -- potential future feature
     console.log("router here")
     journeyController.getAllJourneys(req, res)
 })
@@ -23,7 +23,7 @@ router.delete('/deleteOneJourney/:journey_id', (req,res) => { // works
     journeyController.deleteOneJourney(req, res)
 })
 
-router.delete('/deleteAllUserJourneys', (req,res) => { // to be tested
+router.delete('/deleteAllUserJourneys', (req,res) => { // not used, potential future admin feature
     journeyController.deleteAllUserJourneys(req, res)
 })
 

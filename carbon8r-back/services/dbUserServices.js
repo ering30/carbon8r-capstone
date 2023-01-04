@@ -1,7 +1,7 @@
 const sql = require("../index")
 const { result } = require("lodash");
 
-let dbGetUserByUserName = async (req, res)=>{ // WORKS
+let dbGetUserByUserName = async (req, res)=>{ // WORKS. not used, potential future feature
     console.log("db services here")
     let userName = req.query.username
     return new Promise((resolve, reject) => {
@@ -33,7 +33,7 @@ let dbRegisterUser = async (req, res)=>{ // WORKS
     });
 }
 
-let dbGetAllUsers = async (req, res)=>{ // asc by user iD
+let dbGetAllUsers = async (req, res)=>{ // asc by user iD. future additions: sort by different columns asc/desc
     console.log("db services here")
     return new Promise((resolve, reject) => {
         let sqlQuery = `SELECT * FROM users ORDER BY user_id ASC`;

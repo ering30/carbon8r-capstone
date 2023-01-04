@@ -29,7 +29,7 @@ let dbGetAllJourneys = async (req, res)=>{ // works
     });
 }
 
-let dbGetOneJourney = async (req, res)=>{ 
+let dbGetOneJourney = async (req, res)=>{ // not used, potential future feature
     console.log("db services here")
 
     return new Promise((resolve, reject) => {
@@ -44,7 +44,7 @@ let dbGetOneJourney = async (req, res)=>{
 }
 
 // not working yet
-let dbSaveOneJourney = async (req, res)=>{ // CREATE. let distance = 0 if flight. 
+let dbSaveOneJourney = async (req, res)=>{ // works. future: update db and remove adding to origin & destination columns (not used)
     console.log("db services here")
     console.log(req.body);
 
