@@ -4,7 +4,7 @@ Carbon emissions calculator for travel journeys
 
 Full version coming 6 January 2023!
 
-Stack:
+Technologies / dependencies:
 - Node JS
 - Express JS
 - React
