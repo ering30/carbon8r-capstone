@@ -49,13 +49,20 @@ function FetchCO2FlightData(props) {
         });
     }
 
+    let origin = flightData.airport_from
+    let destination = flightData.airport_to
+
     return (
         <>
         <div>
             <Button className={classes.fetchButton} variant="contained" onClick={apiGet}>CARBON8!</Button>
         </div>
         <div>
-            {{flightData} != 0 ? <ErrorBoundary><FlightResultComponent data={flightData}/></ErrorBoundary> : null}
+            {{flightData} != 0 ? 
+            <ErrorBoundary>
+                <FlightResultComponent data={flightData} origin={origin} destination ={destination}/>
+            </ErrorBoundary> 
+            : null}
         </div>
         </>
     );

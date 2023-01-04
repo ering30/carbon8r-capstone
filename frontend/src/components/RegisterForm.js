@@ -1,18 +1,16 @@
 import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-// import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider} from '@mui/material/styles';
 import { Button } from '@mui/material'
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import {useContext, useEffect, useState} from 'react'
+import {useContext, useState} from 'react'
 import TextField from '@mui/material/TextField';
 import axios from 'axios'
 import { CurrentUserContext } from '../App';
 import { useNavigate } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
+import PopupDialog from './PopupDialog';
 
 const theme = createTheme({
     palette: {
@@ -46,6 +44,8 @@ export default function RegisterForm() {
     const [RegUsername, setRegUsername] = useState('')
     const [RegPassword, setRegPassword] = useState('') 
     const [validateMsg, setValidateMsg] = useState('')
+    const [showSaveDialog, setShowSaveDialog] = useState(false)
+
     let navigate = useNavigate();
     const classes = useStyles();
 
@@ -57,17 +57,16 @@ export default function RegisterForm() {
             username: RegUsername,
             user_password: RegPassword
     })
-        .then(response=> {console.log(response); 
-            alert(`Created a new profile for ${RegUsername}. Please login to continue.`)
-            navigate('/login')})
+        .then(response=> {console.log(response);})
         .catch(error => {console.log(error)})
+        .finally(setShowSaveDialog(true))
         })
+
+    const DialogTitleText = `Created a new profile for ${RegUsername}. `
+    const DialogContentText = `Click OK to login.`
 
     //email & password in if condition, seperate if telling user which to change
     //more states for error message, results, username didn't match, password matches but user doesn't
-    //etc - redirect if both are successful
-    //where to think about, where to store information (context) available to all refresh will remove
-    //stored data - localStorage https://blog.logrocket.com/using-localstorage-react-hooks/
 
     //validate the logins
     const handleSubmit=()=>{
@@ -95,7 +94,6 @@ export default function RegisterForm() {
                 >
                     <CardContent>
                             <h2 className={classes.validateMsg} style={{color: '#d50000'}}>{validateMsg}</h2>
-                        {/* <TextField type="text" value={Lemail} onChange={e=>setLemail(e.target.value)}></TextField> */}
                             <div >
                                 <TextField
                                 required
@@ -142,11 +140,19 @@ export default function RegisterForm() {
                     </CardContent>
                     <CardContent>
                         <Button variant='contained' size="small" type="submit" onClick={handleSubmit}>Register</Button>
-                        
                     </CardContent>
                 </Card>
+                { showSaveDialog ? 
+                <PopupDialog 
+                    callbacks={{
+                        handleOkAction: () => navigate('/login'),
+                    }}
+                    DialogContentText={DialogContentText} 
+                    DialogTitleText={DialogTitleText}
+                />
+                : null
+                }
             </main>
-      {/* Footer */}
     </ThemeProvider>
         );
 }

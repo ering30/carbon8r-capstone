@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import Grid from '@mui/material/Grid';
-import { useNavigate } from 'react-router-dom';
 
 import { UsersContext } from '../App';
 import UserListItem from './UsersListItem';
@@ -13,12 +12,6 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     userList: {
         margin: '0 auto'
-    },
-    detailButton: {
-        background: '#357a38',
-        color: '#FAFAFA',
-        width: '50%',
-        height: '3rem'
     },
     titleText: {
         color: '#357a38',
@@ -31,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function UsersList() {
     const classes = useStyles();
-    const navigate = useNavigate();
 
     // get users context
     const usersContextPayload = useContext(UsersContext)

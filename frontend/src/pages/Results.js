@@ -9,10 +9,8 @@ import CardContent from '@mui/material/CardContent';
 import { TextField } from '@material-ui/core';
 import axios from 'axios'
 import ErrorBoundary from '../components/ErrorBoundary';
-
 import { journeySavedContext } from '../App';
-
-
+import PopupDialog from '../components/PopupDialog';
 
 const useStyles = makeStyles((theme) => ({
     pageWrapper: {
@@ -52,90 +50,87 @@ export default function Results(props) {
     const [showButton, setShowButton] = useState(false)
     const [nickname, setNickname] = useState('My Trip')
 
+    const [showSaveDialog, setShowSaveDialog] = useState(false) // sets show/hide for save confirmation
+
     const navigate = useNavigate();
     const location = useLocation();
     const {from} = location.state
     const tableData = location.state.data;
-    // console.log("table data in results" , tableData);
 
     let grams = tableData.co2e_gm
     let kilo = tableData.co2e_kg
     let tonnes = tableData.co2e_mt
     let distance= tableData.distance_value
     let units = tableData.distance_unit
-    let origin = ' '
-    let origin_name = ' '
-    let vehicle = tableData.vehicle_type
-
-    // tableData looks like
-    // type:"estimate-vehicle-usage"
-    // vehicle_type:"Bus-LocalAverage"
-    // fuel_type:"Unknown"
-    // distance_value:5
-    // distance_unit:"km"
-    // include_wtt:"Y"
-    // co2e_gm:607.2
-    // co2e_kg:0.61
-    // co2e_mt:0
-    // co2e_lb:1.34
-    // success:true
-    // status:200
+    let origin_name = location.state.origin
+    let destination_name = location.state.destination
+    let vehicle = location.state.vehicle
 
     const handleShowButton = () => {
         setShowButton(true)
     }
 
+    const handleShowSaveDialog = () => {
+        setjourneySaved(true)
+        setShowSaveDialog(true)
+    }
+
     const saveJourney = (()=> {
         console.log('submitting journey information')
         // set state with journey as object to use in axios 
+        if (vehicle === 'airplane') {
+            distance =0
+        }
         setjourneySaved(false)
         axios.post('http://localhost:4000/journeys/addJourney', {
             userID: currentUser.user_id,
             nickname: nickname,
             g_CO2: grams,
+            origin_name: origin_name,
+            destination_name: destination_name,
             distance: distance,
             vehicle_type: vehicle,
         })
-        .then(response=> {console.log("save success", response); 
-            alert(`Saved ${nickname} to ${currentUser.username}'s profile.`)
-            navigate('/profile')})
+        .then(response=> {console.log("save success", response); })
         .catch(error => {console.log(error)})
-        .finally(setjourneySaved(true))
+        .finally(handleShowSaveDialog())
         })
 
-        /// for formatting the axios post request
-    //     let userID = req.body.userID
-    // let nickname = req.body.nickname
-    // let origin = req.body.origin
-    // let origin_name = req.body.origin_name
-    // let destination = req.body.destination
-    // let destination_name = req.body.destination_name
-    // let emissions = req.body.g_CO2
-    // let distance = req.body.distance
-    // let vehicle_type = req.body.vehicle_type
+        const DialogContentText = `Click OK to go to your profile.`
+        const DialogTitleText = `Saved ${nickname} to ${currentUser.username}'s profile.`
 
     return (
         <ErrorBoundary>
-        <div className={classes.pageWrapper}>
+        <>
             <Card sx={{ minWidth: 275 }} className={classes.card} style={{backgroundColor: "#fafbed"}}>
         <CardContent >
         <table className={classes.resultsTable}>
                 <thead>
                 <tr className={classes.tableHeadRow}>
+                    <th>Origin</th>
+                    <th>Destination</th>
+                    {vehicle !== 'airplane' ? 
+                    <>
                     <th>Distance</th>
                     <th>Distance Unit</th>
+                    </>
+                    : null }
                     <th>Vehicle Type</th>
                     <th>g CO<sub>2e</sub></th>
                     <th>kg CO<sub>2e</sub></th>
                     <th>tonnes CO<sub>2e</sub></th>
-                    <th>Global Average Annual tonnes CO<sub>2e</sub></th>
-                    <th>Billionaire Average Annual tonnes CO<sub>2e</sub></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr className={classes.tableDataRow}>
+                    <td>{origin_name}</td>
+                    <td>{destination_name}</td>
+                    {vehicle !== 'airplane' ? 
+                    <>
                     <td>{distance}</td>
                     <td>{units}</td>
+                    </> 
+                    : null }
                     {vehicle === 'Car-Size-Average'? <td>Average Car</td>
                     : vehicle === 'Bus-LocalAverage' ? <td>Average Bus</td>
                     : vehicle === 'Train-National' ? <td>Average Train</td>
@@ -143,13 +138,9 @@ export default function Results(props) {
                     <td>{grams}</td>
                     <td>{kilo}</td>
                     <td>{tonnes}</td>
-                    <td>2.76 *</td>
-                    <td>3.1 million *</td>
                 </tr>
                 </tbody>
             </table>
-            <p className={classes.noteText}>* source: Oxfam 2022, <a href="https://oxfamilibrary.openrepository.com/bitstream/handle/10546/621446/bn-carbon-billlionaires-071122-en.pdf?sequence=14">"Carbon Billionaires: The investment emissions of the worlds richest people"</a></p>
-
         </CardContent>
         <CardActions>
             <div className={classes.saveDiv}>
@@ -192,7 +183,17 @@ export default function Results(props) {
             </p>
         </Card>
         <Box sx={{ bgcolor: 'none', height:'3rem' }} component="footer"></Box>
-        </div>
+        </>
+        {showSaveDialog === true ? 
+            <PopupDialog 
+                callbacks={{
+                    handleOkAction: () => navigate('/profile'),
+                }}
+                // journeyID={journey.journey_id} //entity id
+                DialogContentText={DialogContentText} 
+                DialogTitleText={DialogTitleText}
+            /> 
+        : null}
         </ErrorBoundary>
     )
 }

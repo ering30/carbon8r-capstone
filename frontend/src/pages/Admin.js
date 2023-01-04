@@ -1,6 +1,6 @@
-import React, { useEffect, useContext, useState } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import { Container, Box } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { CardContent } from '@material-ui/core';
 import Card from '@mui/material/Card';
 import axios from 'axios'
@@ -14,12 +14,13 @@ const useStyles = makeStyles((theme) => ({
         width: '80%',
         margin: '0 auto',
         paddingTop: '10%',
-        textAlign: 'center'
+        textAlign: 'center',
     },
     heroText: {
         color: '#357a38',
         fontFamily: 'Unbounded',
-        fontWeight: '200'
+        fontWeight: '200',
+        fontSize: '3rem',
     },
 }));
 
@@ -38,7 +39,7 @@ export default function Admin() {
 
 
     return (
-    <Container className={classes.pageWrapper} maxWidth="lg">
+    <>
             <h1 className={classes.heroText}>ADMIN UTILITIES</h1>
                 <Card elevation={4} 
                 sx={{
@@ -56,6 +57,6 @@ export default function Admin() {
                 </CardContent>
                 </Card>
         <Box sx={{ bgcolor: 'none', height:'3rem' }} component="footer"></Box>
-    </Container>
+    </>
     )
 }

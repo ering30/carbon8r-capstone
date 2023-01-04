@@ -1,12 +1,9 @@
 
 import { makeStyles } from '@material-ui/core/styles';
-import React, {useState} from 'react'
-// import CalculatorForm from '../components/CalculatorForm'
+import React, {useState, useEffect } from 'react'
 import CalculatorFormSutra from '../components/CalculatorFormSutra';
 import FlightCalculatorForm from '../components/FlightCalculatorForm';
 import { Button, Box } from '@material-ui/core';
-// import LocationForm from '../components/LocationForm';
-
 
 const useStyles = makeStyles((theme) => ({
     pageWrapper: {
@@ -28,11 +25,15 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-// USING CARBON SUTRA.
+
 
 export default function Calculator() {
     const [calcType, setCalcType] = useState('')
     const classes = useStyles(); 
+
+    useEffect(() => {
+        window.scrollTo({bottom: 0, left: 0, behavior: 'smooth'});
+        }, []);
 
     const handleCarCalculator = () => {
         setCalcType('Car-Size-Average')
@@ -46,8 +47,9 @@ export default function Calculator() {
     const handlePlaneCalculator = () => {
         setCalcType('plane')
     }
+    
     return (
-        <div className={classes.pageWrapper}>
+        <>
             
             {calcType === '' ? 
             <>
@@ -71,6 +73,6 @@ export default function Calculator() {
             : null
             }
             <Box sx={{ bgcolor: 'none', height:'3rem' }} component="footer"></Box>
-        </div>
+        </>
     )
 }

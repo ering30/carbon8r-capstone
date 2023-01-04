@@ -1,18 +1,14 @@
 import React, { useState, useRef } from 'react'
-import { Input } from '@material-ui/core';
+import { CardActions, Input } from '@material-ui/core';
 import FetchCarbonSutra from './FetchCarbonSutra';
 import { makeStyles } from '@material-ui/core';
 import { createTheme, ThemeProvider} from '@mui/material/styles';
-import {
-    useJsApiLoader,
-    // GoogleMap,
-    // Marker,
-    Autocomplete,
-    // DirectionsRenderer,
-} from '@react-google-maps/api'
-import { Skeleton } from '@mui/material';
-import GetStartedButton from './GetStartedButton';
+import { useJsApiLoader, Autocomplete } from '@react-google-maps/api'
+import { Skeleton, TextField } from '@mui/material';
 import { Stack } from '@mui/system';
+import { Button } from "@material-ui/core";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 
 
 
@@ -29,18 +25,27 @@ const theme = createTheme({
 const useStyles = makeStyles((theme) => ({
     instructions: {
         fontFamily: 'Unbounded',
-        fontWeight: '200'
+        fontWeight: '300'
     },
     AutocompleteField: {
         width: '100px',
         padding: '2px',
+    },
+    formButton: {
+        width: '50%',
+        background: '#357a38',
+        color: '#FAFAFA'
+    },
+    formButtonClear: {
+        width: '50%',
+        background: '#7a7a7a',
+        color: '#FAFAFA',
     }
 }));
 
 export default function CalculatorFormSutra(props) {
-    // const {number1, setNumber1} = useState('')
-    // const [origin, setOrigin] = useState('')
-    // const [destination, setDestination] = useState('')
+    const classes = useStyles(); 
+
     const [distance, setDistance] = useState(0)
     const [directionsResponse, setDirectionsResponse] = useState({})
 
@@ -49,15 +54,7 @@ export default function CalculatorFormSutra(props) {
     /** @type React.MutableRefObject<HTMLInputElement> */
     const destinationRef = useRef()
 
-    const transportMode = props.vehicleType
-
-    // change travel mode for google directions
-    // {transportMode === 'Car-Size-Average' ? TravelMode === TravelMode.DRIVING :
-    // transportMode === 'Bus-LocalAverage' ? TravelMode === TransitMode.BUS :
-    // transportMode === 'Train-National' ? TravelMode === TransitMode.TRAIN :
-    // TravelMode === TravelMode.DRIVING}
-
-    const classes = useStyles
+    let transportMode = props.vehicleType
 
     const {isLoaded} = useJsApiLoader({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
@@ -67,23 +64,49 @@ export default function CalculatorFormSutra(props) {
     async function calculateRoute() {
         if (originRef.current.value === '' || destinationRef.current.value === '') {
             return
-        }
-        // eslint-disable-next-line no-undef
-        const directionsService = new google.maps.DirectionsService()
-        const results = await directionsService.route({
-            origin: originRef.current.value,
-            destination: destinationRef.current.value,
+        } 
+        else if (transportMode='Car-Size-Average' ){
             // eslint-disable-next-line no-undef
-            travelMode: google.maps.TravelMode.DRIVING,
-        })
-        setDirectionsResponse(results)
-        setDistance((results.routes[0].legs[0].distance.value)/1000)
-        console.log("results after calculate" , results);
+            const directionsService = new google.maps.DirectionsService()
+            const results = await directionsService.route({
+                origin: originRef.current.value,
+                destination: destinationRef.current.value,
+                // eslint-disable-next-line no-undef
+                travelMode: google.maps.TravelMode.DRIVING,
+            })
+            console.log(results);
+            setDirectionsResponse(results)
+            setDistance((results.routes[0].legs[0].distance.value)/1000)
+        }
+        else if (transportMode='Bus-LocalAverage'){
+            // eslint-disable-next-line no-undef
+            const directionsService = new google.maps.DirectionsService()
+            const results = await directionsService.route({
+                origin: originRef.current.value,
+                destination: destinationRef.current.value,
+                // eslint-disable-next-line no-undef
+                travelMode: google.maps.TransitMode.BUS,
+            })
+            setDirectionsResponse(results)
+            setDistance((results.routes[0].legs[0].distance.value)/1000)
+        }
+        else if(transportMode='Train-National'){
+             // eslint-disable-next-line no-undef
+            const directionsService = new google.maps.DirectionsService()
+            const results = await directionsService.route({
+                origin: originRef.current.value,
+                destination: destinationRef.current.value,
+                // eslint-disable-next-line no-undef
+                travelMode: google.maps.TransitMode.TRAIN,
+            })
+            setDirectionsResponse(results)
+            setDistance((results.routes[0].legs[0].distance.value)/1000)
+        }
     }
     
     function clearRoute() {
-        setDirectionsResponse(null)
-        setDistance('')
+        setDirectionsResponse({})
+        setDistance(0)
 
         originRef.current.value = ''
         destinationRef.current.value = ''
@@ -94,99 +117,79 @@ export default function CalculatorFormSutra(props) {
     }
 
     return (
-
-            <>
-            {distance !== 0? <h1>distance {distance} </h1>: null}
-            {Object.entries(directionsResponse).length !== 0 ? <h1>directionsResponse first waypoint: {directionsResponse.geocoded_waypoints[0].place_id} </h1> : null}
+        <>
             <ThemeProvider theme={theme}>
-                <Stack direction="row" spacing={2} justifyContent='space-between' sx={{margin: '0 auto', width: '50%'}}>
-                    <Autocomplete>
-                    <Input type='text' placeholder='Origin' inputRef={originRef} />
-                        {/* <Input
-                            inputRef={originRef}
-                            // required
-                            // autoFocus
-                            // className={classes.textInput}
-                            // variant="filled"
-                            // label="required"
-                            type="text"
-                            // name="origin"
-                            placeholder="Origin"
-                            // value={origin}
-                            // onChange={e=>setOrigin(e.target.value)}
-                            // color="primary"
-                        /> */}
-                    </Autocomplete>
-                    <Autocomplete >
-                    <Input
-                        type='text'
-                        placeholder='Destination'
-                        inputRef={destinationRef}
-                    />
-                        {/* <Input
-                            className={classes.AutocompleteField}
-                            required
-                            variant="filled"
-                            label="required"
-                            type="text"
-                            name="destination"
-                            placeholder="Destination"
-                            value={destination}
-                            onChange={e=>{setDestination(e.target.value); console.log(destination);}
-                            }
-                            color="primary"
-                        /> */}
-                    </Autocomplete>
-                </Stack>
-                    {/* <TextField
-                        className={classes.textInput}
-                        variant="filled"
-                        label="required"
-                        type="text"
-                        name="num1"
-                        helperText="Enter a distance in km e.g. 2500"
-                        value={number1}
-                        onChange={e=>setNumber1(e.target.value)}
-                        color="primary"
-                    /> */}
-                    {/* <Box position='absolute' left={'0'} top={'0'} h='100%' w='100%'>
-                        <GoogleMap
-                            center={center}
-                            zoom={15}
-                            mapContainerStyle={{width: '100%', height: '100%'}}
-                            // options={{
-                            //     zoomControl: false,
-                            //     streetViewControl: false,
-                            //     mapTypeControl: false,
-                            //     fullscreenControl: false,
-                            // }}
-                            onLoad={googlemap => setGoogleMap(googlemap)}
-                            >
-                        </GoogleMap>
-                    </Box> */}
+                <Card sx={{
+                    bgcolor: '#fafbed',
+                    pt: 1,
+                    pb: 1,
+                    borderRadius: 3,
+                    minWidth: 275,
+                    maxWidth: '50%',
+                    marginTop: 1,
+                    marginBottom: 2,
+                    marginLeft: 'auto',
+                    marginRight: 'auto'
+                }} >
+                <CardContent >
+                    <Stack spacing={2} justifyContent='space-between'>
+                        <Autocomplete>
+                            <TextField 
+                                required
+                                label="required"
+                                autoFocus
+                                type='text' 
+                                name="origin"
+                                placeholder='Origin' 
+                                helperText="Start typing a location for options"
+                                variant="filled"
+                                inputRef={originRef} 
+                                sx={{ width: '100%' }}
+                            />
+                        </Autocomplete>
+                        <Autocomplete >
+                            <TextField
+                                required
+                                label="required"
+                                name="destination"
+                                type='text'
+                                placeholder='Destination'
+                                helperText="Start typing a location for options"
+                                variant="filled"
+                                inputRef={destinationRef}
+                                sx={{ width: '100%' }}
+                            />
+                        </Autocomplete>
+                    </Stack>  
+                </CardContent>       
                 <div>
-                { originRef && destinationRef ?
-                // originRef.current.value && destinationRef.current.value ? 
-                <>
-                <GetStartedButton 
-                buttonText={"show route"} 
-                buttonFunc={calculateRoute} 
-                /> 
-                <GetStartedButton 
-                buttonText={"clear"} 
-                buttonFunc={clearRoute} />
-                </>
-                : null}
-                {distance >0 ? 
-                <>
-                <FetchCarbonSutra distance={distance} vehicle={transportMode}/> 
-                </>
-                : null}
+                { (originRef !== '') && (destinationRef !== '')?
+                <Stack direction="row" spacing={2} justifyContent='space-between' sx={{margin: '0 auto', width: '80%'}}>
+                    <Button 
+                        className={classes.formButton}
+                        variant="contained"
+                        onClick={calculateRoute} 
+                    > 
+                    get distance
+                    </Button>
+                    <Button 
+                        className={classes.formButtonClear}
+                        variant="contained"
+                        onClick={clearRoute} 
+                    > 
+                    clear
+                    </Button>
+                </Stack>
+                : null }
+                    {distance >0 ? 
+                        <>
+                        <h4 className={classes.instructions}>Distance: {distance}km </h4>
+                        <FetchCarbonSutra distance={distance} vehicle={transportMode} googleResponse={directionsResponse}/> 
+                        </>
+                    : null}
                 </div>
+                </Card>
             </ThemeProvider>
-            </>
-        )
+        </>
+    )
 }
-
-
-//&& this.state.number2>0 // end={number2} transportMode={transportMode}

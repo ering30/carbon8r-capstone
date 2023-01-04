@@ -1,33 +1,26 @@
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import DeleteIcon from '@mui/icons-material/Delete';
-import IconButton from '@mui/material/IconButton';
 
 
-export default function AlertDialog(props) {
+export default function PopupDialog(props) {
     const {
         callbacks: {
             handleOkAction,
         },
     } = props
 
-    // get logged in user info
-    const currentUserString = localStorage.getItem('currentUser');
-    const currentUser = JSON.parse(currentUserString);
-    const id= currentUser.user_id
-    
-
     // dialog handlers
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(true);
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+    // not needed due to open using set state boolean
+    // const handleClickOpen = () => {
+    //     setOpen(true);
+    // };
 
     const handleClose = () => {
         setOpen(false);
@@ -35,15 +28,6 @@ export default function AlertDialog(props) {
 
     return (
         <div>
-        <IconButton 
-                edge="end" 
-                aria-label="delete" 
-                sx={{ color: '#357a38' }} 
-                onClick={handleClickOpen}
-                disableripple="true"
-        >
-            <DeleteIcon />
-        </IconButton>
         <Dialog
             open={open}
             onClose={handleClose}

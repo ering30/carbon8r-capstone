@@ -42,7 +42,18 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: '200',
         fontSize: '1rem',
         margin: 0
-    }
+    },
+    endText: {
+        color: '#357a38',
+        fontFamily: 'Unbounded',
+        fontWeight: '200',
+        fontSize: '0.8rem',
+        margin: 0
+    },
+    endDiv: {
+        marginTop: '1rem',
+        marginBottom: '1rem',
+    },
 }));
 
 export default function JourneyList() {
@@ -65,16 +76,20 @@ export default function JourneyList() {
     }
     let total = (emissionsArray.reduce(getSumEmissions,0)/1000000).toFixed(3)
 
+    let percentage = (total/3100000)/100
+    let roundedPercent= percentage.toFixed(12)
+
     /// ----------
     return (
     <Box sx={{ flexGrow: 1, maxWidth: '100%' }}>
         
         <Grid container spacing={12}>
             <Grid item xs={12} md={12}>
-            <h6 className={classes.journeyText}>
-                YOUR SAVED JOURNEYS
-            </h6>
-            
+                <h6 className={classes.journeyText}>
+                    YOUR SAVED JOURNEYS
+                </h6>
+                <h6 className={classes.totalText}>Your total travel emissions: </h6>
+                <h6 className={classes.totalText}>{total} tonnes CO<span className={classes.subscript}>2</span>-e</h6>
                 <List className={classes.journeyList}>
                     {journeys.map(journey => (
                         <JourneyListItem 
@@ -84,8 +99,11 @@ export default function JourneyList() {
                         />
                     ))}
                 </List>
-                <h6 className={classes.totalText}>Your total travel emissions: </h6>
-                <h6 className={classes.totalText}>{total} tonnes CO<span className={classes.subscript}>2</span>-e</h6>
+                <div className={classes.endDiv}>
+                    <h6 className={classes.endText}>psst -</h6>
+                    <h6 className={classes.endText}>The average billionare's carbon footprint is 3.1 million tonnes CO<sub>2e</sub> per year.</h6>
+                    <h6 className={classes.endText}>Your total is approximately {roundedPercent}&#37; of that.</h6>
+                </div>
                 <GetStartedButton buttonText={"learn more"} buttonFunc={() => {navigate('/info')}}/>
             </Grid>
         </Grid>

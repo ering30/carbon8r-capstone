@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { CssBaseline } from '@material-ui/core';
 import Header from './components/Header';
 import React, {useState} from 'react';
+import { Container } from '@material-ui/core';
 
 // import ResponsiveAppBar from './components/ResponsiveAppBar';
 
@@ -20,7 +21,7 @@ import Results from './pages/Results';
 import Calculator from './pages/Calculator';
 import Home from './pages/Home'
 import Info from './pages/Info'
-import ResultsFlight from './pages/ResultsFlight';
+// import ResultsFlight from './pages/ResultsFlight';
 import ErrorPage from './pages/ErrorPage'
 import LoginPage from './pages/LoginPage';
 import Profile from './pages/Profile';
@@ -42,8 +43,20 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage: `url(${process.env.PUBLIC_URL + '/assets/bg.jpg'})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
-    backgroundAttachment: 'fixed'
+    backgroundAttachment: 'fixed',
   },
+  pageWrapper: {
+    width: '80%',
+    marginLeft: '0 auto',
+    textAlign: 'center',
+    flexGrow: 1,
+    height: '90vh',
+    overflow: 'scroll',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+},
 }));
 
 function App() {
@@ -59,6 +72,7 @@ function App() {
           <div className={classes.root}>
             <CssBaseline />
             <Header />
+            <Container className={classes.pageWrapper} maxWidth="lg">
             <Routes>
               <Route path='/' element={<Home />} />
               <Route path='/login' element={<LoginPage />} />
@@ -68,11 +82,12 @@ function App() {
               <Route path='/info' element={<Info />} />
               <Route path='/admin' element={<Admin />} />
               
-              <Route path='/results/vehicle' element={<Results />} />
-              <Route path='/results/flight' element={<ResultsFlight />} />
+              <Route path='/results' element={<Results />} />
+              {/* <Route path='/results/flight' element={<ResultsFlight />} /> */}
               
               <Route path='*' element={<ErrorPage />} />
             </Routes>
+            </Container>
           </div>
         </journeySavedContext.Provider>
       </CurrentUserContext.Provider>
