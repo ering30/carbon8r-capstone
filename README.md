@@ -24,7 +24,7 @@ Technologies / dependencies:
 
 ## Motivation
 
-Since travel is back on the agenda following the height of COVID lockdowns, CARBON8R provides an easy way for climate-conscious individuals and businesses to access reliable data for their carbon footprint. The goal is to aid in making intelligent travel decisions and to educate and increase awareness about carbon dioxide emissions from travel. 
+For many of us, travel is back on the agenda after a long time staying put (woohoo!). It also means our carbon footprints are climbing again (rats!). Thankfully, CARBON8R provides an easy way for climate-conscious individuals and businesses to access reliable data for their carbon footprint. The goal is to aid in making intelligent travel decisions and to educate and increase awareness about carbon dioxide emissions from travel. 
 
 ## Requirements
 
@@ -51,4 +51,4 @@ Show how to use the project or library.
 
 + [Google Maps Javascript API Docs](https://developers.google.com/maps/documentation/javascript)
 + [RapidAPI : Carbon Sutra Docs](https://rapidapi.com/carbonsutra/api/carbonsutra1/)
-+ [Swagger docs for CARBON8R backend API's](http://localhost:4000/api-docs/
++ [Swagger docs for CARBON8R backend API's](http://localhost:4000/api-docs/)
