@@ -1,10 +1,8 @@
-import React, { useState, useContext } from 'react'
-import { Dialog, ListItem } from '@material-ui/core';
+import React, { useContext } from 'react'
+import { ListItem } from '@material-ui/core';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-// import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
-// import Checkbox from '@mui/material/Checkbox';
 import DirectionsIcon from '@mui/icons-material/Directions';
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
@@ -26,28 +24,6 @@ const deleteJourney = ((contextPayload, journey, navigate)=> {
     .finally(setJourneys(updatedJourneysArray))
     })
 
-// // update context after delete, in handleDelete inside Dialog HOC
-// const refreshJourneys = (userID, setJourneys) => {
-//     axios.get(`http://localhost:4000/journeys/allUserJourneys/${userID}`)
-//         .then(response=> {setJourneys(response.data);})
-//         .catch(error => {console.log(error)})
-// }
-
-// // onClick function
-// const handleDelete = (deletePayload) => {
-//     const {
-//         callbacks: {
-//             navigate,
-//             setJourneys,
-//         },
-//         journey, 
-//         userID,
-//     } = deletePayload
-
-//     deleteJourney(journey, navigate)
-//     refreshJourneys(userID, setJourneys);
-// }
-
 function JourneyListItem(props) {
     const navigate = useNavigate();
     const { journey } = props
@@ -66,16 +42,6 @@ function JourneyListItem(props) {
     let DialogContentText = "If you proceed, you will lose this information. You can add new journeys using the calculator."
 
     let kgEmissions = journey.g_CO2 / 1000
-
-    // const deletePayload = {
-    //     callbacks: {
-    //         navigate,
-    //         setJourneys
-    //     },
-    //     journey,
-    //     journeys,
-    //     userID,
-    // }
 
     return (
         <ListItem>

@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, IconButton, Toolbar, Button } from '@material-ui/core';
 import {NavLink, useNavigate } from 'react-router-dom'
-// import MenuIcon from '@mui/icons-material/Menu';
-// import { fontSize } from '@mui/system';
 import BasicMenu from './BasicMenu';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Slide from '@mui/material/Slide';
@@ -69,11 +67,12 @@ HideOnScroll.propTypes = {
 
 export default function Header(props) {
     const users = <NavLink to='/users'>Users</NavLink>
+
     //gets the logged in user / local storage of user status
     const currentUserString = localStorage.getItem('currentUser');
     const currentUser = JSON.parse(currentUserString);
-    console.log(currentUser)
-    // const currentUserNameUpperCase = currentUser.username.toUpperCase()
+    console.log("logged in:" , currentUser)
+    
     const classes = useStyles();
     let navigate = useNavigate();
 
