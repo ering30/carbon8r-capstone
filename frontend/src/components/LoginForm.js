@@ -1,6 +1,5 @@
 import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
-
 import { createTheme, ThemeProvider} from '@mui/material/styles';
 import { Button } from '@mui/material'
 import Card from '@mui/material/Card';
@@ -22,7 +21,8 @@ const theme = createTheme({
 
 const useStyles = makeStyles((theme) => ({
     textInput:{
-        margin: 5
+        margin: 5,
+        width: '100%',
     },
     mainCard: {
         color: '#357a38',

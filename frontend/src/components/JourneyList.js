@@ -89,7 +89,7 @@ export default function JourneyList() {
                     YOUR SAVED JOURNEYS
                 </h6>
                 <h6 className={classes.totalText}>Your total travel emissions: </h6>
-                <h6 className={classes.totalText}>{total} tonnes CO<span className={classes.subscript}>2</span>-e</h6>
+                <h6 className={classes.totalText}>{total} tonnes CO<span className={classes.subscript}>2e</span></h6>
                 <List className={classes.journeyList}>
                     {journeys.map(journey => (
                         <JourneyListItem 

@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
         color: '#357a38',
         fontFamily: 'Unbounded',
         fontWeight: '200',
-        fontSize: '3rem',
+        fontSize: '2rem',
     },
 }));
 

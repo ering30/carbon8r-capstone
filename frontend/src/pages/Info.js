@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 import Card from '@mui/material/Card';
@@ -29,6 +29,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Info() {
     const classes = useStyles();
+    useEffect(() => {
+        // 👇️ scroll to top on page load
+        window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+    }, []);
     return (
         <>
         {/* <Container className={classes.pageWrapper} maxWidth="lg"> */}

@@ -1,10 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@material-ui/core";
 import CircularLoading from "./CircularLoading";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core";
+import { createTheme, ThemeProvider} from '@mui/material/styles';
 import ErrorBoundary from "./ErrorBoundary";
 const LazyResult = React.lazy(() => import("./ResultComponent")) // lazy load of result component
+
+const theme = createTheme({
+    palette: {
+        primary: {
+        main: '#357a38'
+        }
+    },
+});
 
 const useStyles = makeStyles((theme) => ({
     fetchButton: {
@@ -17,9 +26,8 @@ const useStyles = makeStyles((theme) => ({
 
 function FetchCarbonSutra(props) {
     const classes = useStyles();
+    const resultRef = useRef(null)
     const [carbon, setCarbon] = useState('');
-
-    const anchor = document.querySelector("#calc-result")
 
 const encodedParams = new URLSearchParams();
 encodedParams.append("vehicle_type", props.vehicle);
@@ -48,20 +56,31 @@ axios.request(options).then(function (response) {
 })
 }
 
+useEffect(() => {
+    scrollToBottom()
+}, [carbon]);
+
+const scrollToBottom = () => {
+    resultRef.current?.scrollIntoView({ behavior: "smooth" })
+}
+
 let requestOrigin = props.googleResponse.request.origin.query
 let requestDestination= props.googleResponse.request.destination.query
 
     return (
     <div>
-        <Button className={classes.fetchButton} variant="contained" onClick={apiGet}>CARBON8!</Button>
-            {{carbon} != 0 ? 
-            <ErrorBoundary>
-            <React.Suspense fallback={<CircularLoading/>} >
-            <LazyResult data={carbon} origin={requestOrigin} destination ={requestDestination}/>
-            </React.Suspense>
-            </ErrorBoundary>
-            : null
-            }
+        <ThemeProvider theme={theme}>
+            <Button className={classes.fetchButton} variant="contained" onClick={apiGet}>CARBON8!</Button>
+                {{carbon} != 0 ? 
+                <ErrorBoundary>
+                <React.Suspense fallback={<CircularLoading sx={{margin: '0 auto'}} />} >
+                <LazyResult data={carbon} origin={requestOrigin} destination ={requestDestination}/>
+                </React.Suspense>
+                <div ref={resultRef} />
+                </ErrorBoundary>
+                : null
+                }
+        </ThemeProvider>
     </div>
     );
 }

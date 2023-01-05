@@ -1,10 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@material-ui/core";
-import ResultComponent from "./ResultComponent";
 import FlightResultComponent from "./FlightResultComponent";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core";
+import { createTheme, ThemeProvider} from '@mui/material/styles';
 import ErrorBoundary from "./ErrorBoundary";
+
+const theme = createTheme({
+    palette: {
+        primary: {
+        main: '#357a38'
+        }
+    },
+});
 
 const useStyles = makeStyles((theme) => ({
     fetchButton: {
@@ -16,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
 
 function FetchCO2FlightData(props) {
     const classes = useStyles();
+    const resultRef = useRef(null)
     const [flightData, setFlightData] = useState('');
 
 
@@ -49,21 +58,32 @@ function FetchCO2FlightData(props) {
         });
     }
 
+    useEffect(() => {
+        scrollToBottom()
+    }, [flightData]);
+    
+    const scrollToBottom = () => {
+        resultRef.current?.scrollIntoView({ behavior: "smooth" })
+    }
+
     let origin = flightData.airport_from
     let destination = flightData.airport_to
 
     return (
-        <>
-        <div>
-            <Button className={classes.fetchButton} variant="contained" onClick={apiGet}>CARBON8!</Button>
-        </div>
-        <div>
-            {{flightData} != 0 ? 
-            <ErrorBoundary>
-                <FlightResultComponent data={flightData} origin={origin} destination ={destination}/>
-            </ErrorBoundary> 
-            : null}
-        </div>
+        <>  
+        <ThemeProvider theme={theme}>
+            <div>
+                <Button className={classes.fetchButton} variant="contained" onClick={apiGet}>CARBON8!</Button>
+            </div>
+            <div>
+                {{flightData} != 0 ? 
+                <ErrorBoundary>
+                    <FlightResultComponent data={flightData} origin={origin} destination ={destination}/>
+                </ErrorBoundary> 
+                : null}
+            </div>
+            <div ref={resultRef}/>
+        </ThemeProvider>
         </>
     );
 }
