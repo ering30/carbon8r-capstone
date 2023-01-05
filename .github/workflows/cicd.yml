@@ -1,0 +1,65 @@
+name: CI/CD
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      env:
+        PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
+      with:
+        node-version: ${{ matrix.node-version }}
+
+
+    - name: Install frontend dependencies
+      run: cd frontend && npm install --legacy-peer-deps
+
+    - name: Install backend dependencies
+      run: cd carbon8r-back && npm install
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+
+    - name: Set up Docker Buildx
+      id: buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Build and push frontend
+      id: docker_build_frontend
+      uses: docker/build-push-action@v2
+      with:
+        context: ./frontend
+        file: ./frontend/Dockerfile
+        push: true
+        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/carbon8r-frontend:latest
+
+    - name: Build and push backend
+      id: docker_build_backend
+      uses: docker/build-push-action@v2
+      with:
+        context: ./carbon8r-back
+        file: ./carbon8r-back/Dockerfile
+        push: true
+        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/carbon8r-backend:latest
+
+    - name: Image digest for frontend
+      run: echo ${{ steps.docker_build_frontend.outputs.digest }}
+
+    - name: Image digest for backend
+      run: echo ${{ steps.docker_build_backend.outputs.digest }}
