@@ -26,27 +26,6 @@ const deleteJourney = ((contextPayload, journey, navigate)=> {
     .finally(setJourneys(updatedJourneysArray))
     })
 
-// // update context after delete, in handleDelete inside Dialog HOC
-// const refreshJourneys = (userID, setJourneys) => {
-//     axios.get(`http://localhost:4000/journeys/allUserJourneys/${userID}`)
-//         .then(response=> {setJourneys(response.data);})
-//         .catch(error => {console.log(error)})
-// }
-
-// // onClick function
-// const handleDelete = (deletePayload) => {
-//     const {
-//         callbacks: {
-//             navigate,
-//             setJourneys,
-//         },
-//         journey, 
-//         userID,
-//     } = deletePayload
-
-//     deleteJourney(journey, navigate)
-//     refreshJourneys(userID, setJourneys);
-// }
 
 function JourneyListItem(props) {
     const navigate = useNavigate();
@@ -66,16 +45,6 @@ function JourneyListItem(props) {
     let DialogContentText = "If you proceed, you will lose this information. You can add new journeys using the calculator."
 
     let kgEmissions = journey.g_CO2 / 1000
-
-    // const deletePayload = {
-    //     callbacks: {
-    //         navigate,
-    //         setJourneys
-    //     },
-    //     journey,
-    //     journeys,
-    //     userID,
-    // }
 
     return (
         <ListItem>
