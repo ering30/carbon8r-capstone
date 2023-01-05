@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { CardActions, Input } from '@material-ui/core';
 import FetchCarbonSutra from './FetchCarbonSutra';
 import { makeStyles } from '@material-ui/core';
@@ -10,9 +10,6 @@ import { Button } from "@material-ui/core";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 
-
-
-// require('dotenv').config()
 
 const theme = createTheme({
     palette: {
@@ -103,7 +100,13 @@ export default function CalculatorFormSutra(props) {
             setDistance((results.routes[0].legs[0].distance.value)/1000)
         }
     }
-    
+
+    useEffect(()=>{
+        if ((distance >0) && (distance <1 )){
+            setDistance(1)
+        }
+    },[distance])
+
     function clearRoute() {
         setDirectionsResponse({})
         setDistance(0)
