@@ -37,7 +37,7 @@ To run this code locally you will need:
 
 Provide code examples and explanations of how to get the project, e.g.,
 
-	git clone https://github.com
+	git clone https://github.com/ering30/carbon8r-capstone.git
     cd carbon8r-capstone 
     npm install
     
