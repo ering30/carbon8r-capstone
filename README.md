@@ -56,12 +56,13 @@ Download the Docker containers here:
 + [Frontend](https://hub.docker.com/r/gonthierin/carbon8r-frontend)
 + [Backend](https://hub.docker.com/r/gonthierin/carbon8r-backend)
 
-Both methods will require a mySQL database. 
-Download the 'carbon8r-queries.sql' file in the main folder of this repo. Create a schema called 'carbon8r' and use the queries in the file to set up your tables. 
-The queries will set you up with an admin account with full access to functionalities (primarily viewing list of all users). 
-Details for admin login:
-email: admin@gmail.com
-pw: 1234
+Both methods will require a mySQL database:
+1. Download the 'carbon8r-queries.sql' file in the main folder of this repo. 
+2. Create a schema called 'carbon8r' and use the queries in the file to set up your tables. 
+3. The queries will set you up with an admin account with full access to functionalities (primarily viewing list of all users). 
+	Details for admin login:
+	email: admin@gmail.com
+	pw: 1234
     
 ## Reference
 
