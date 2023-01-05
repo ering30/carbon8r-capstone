@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     detailButton: {
         background: '#357a38',
         color: '#FAFAFA',
-        width: '50%',
+        width: '80%',
         height: '3rem'
     }
     
