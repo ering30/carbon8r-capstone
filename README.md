@@ -35,21 +35,33 @@ To run this code locally you will need:
 
 ## Installation or Getting Started
 
-Provide code examples and explanations of how to get the project, e.g.,
+To use this code locally, complete the following:
+
+Method 1: Github clone
 
 	git clone https://github.com/ering30/carbon8r-capstone.git
     cd carbon8r-capstone 
+    // to start the backend: 
+    cd carbon8r-back
     npm install
+    npm start
     
+    //to start the frontend:
+    cd frontend
+    npm install --legacy-peer-deps
     npm start
 
-Alternatively, download the Docker images here:
+Method 2: Docker containers
+Download the Docker containers here:
 + [Frontend](https://hub.docker.com/r/gonthierin/carbon8r-frontend)
 + [Backend](https://hub.docker.com/r/gonthierin/carbon8r-backend)
 
-## Usage
-
-Show how to use the project or library.
+Both methods will require a mySQL database. 
+Download the 'carbon8r-queries.sql' file in the main folder of this repo. Create a schema called 'carbon8r' and use the queries in the file to set up your tables. 
+The queries will set you up with an admin account with full access to functionalities (primarily viewing list of all users). 
+Details for admin login:
+email: admin@gmail.com
+pw: 1234
     
 ## Reference
 
