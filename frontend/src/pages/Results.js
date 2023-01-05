@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useRef, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { createTheme, ThemeProvider} from '@mui/material/styles';
 import { Button, Box } from '@material-ui/core';
@@ -64,6 +64,7 @@ export default function Results(props) {
     const [nickname, setNickname] = useState('My Trip')
 
     const [showSaveDialog, setShowSaveDialog] = useState(false) // sets show/hide for save confirmation
+    const formRef = useRef(null) // for setting scrollTo on save form
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -88,6 +89,16 @@ export default function Results(props) {
         setShowSaveDialog(true)
     }
 
+    // scroll to element when form conditionally renders based on showButton
+    useEffect(() => {
+        scrollToElement()
+    }, [showButton]);
+    
+    const scrollToElement = () => {
+        formRef.current?.scrollIntoView({ behavior: "smooth" })
+    }
+
+    // save njourney to DB
     const saveJourney = (()=> {
         console.log('submitting journey information')
         // set state with journey as object to use in axios 
@@ -176,7 +187,7 @@ export default function Results(props) {
                     </Button>
                 </CardActions>
                         {showButton === true ? 
-                        <CardActions >
+                        <CardActions ref={formRef}>
                         <Stack className={classes.saveDiv}>
                         <TextField
                             autoFocus
@@ -185,7 +196,6 @@ export default function Results(props) {
                             type="text"
                             name="journey-nickname"
                             placeholder='My Trip'
-                            defaultValue='My Trip'
                             helperText="Enter a name for your journey or click 'Save'"
                             value={nickname}
                             onChange={e=>setNickname(e.target.value)}

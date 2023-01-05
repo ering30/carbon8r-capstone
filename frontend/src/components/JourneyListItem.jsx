@@ -65,7 +65,7 @@ function JourneyListItem(props) {
                 primary={`${journey.nickname} : ${kgEmissions} kgCO2`} 
                 secondary={
                     journey.vehicle_type !== 'airplane' && journey.origin_name !== 'undefined' ? `${journey.origin_name} to ${journey.destination_name}: ${journey.tot_distance}km` 
-                    : journey.vehicle_type !== 'airplane' && journey.origin === 'undefined' ? `${journey.tot_distance}km`
+                    : journey.vehicle_type !== 'airplane' && journey.origin_name === 'undefined' ? `${journey.tot_distance}km`
                     : journey.vehicle_type === 'airplane' ? `${journey.origin_name} to ${journey.destination_name}`
                     : ' '}
             />
@@ -76,7 +76,7 @@ function JourneyListItem(props) {
                 DialogContentText={"If you proceed, you will lose this information. You can add new journeys using the calculator."} 
                 DialogTitleText={"Delete this journey?"}
             />
-            { showDialog ? 
+            { showDialog === true ? 
             <PopupDialog 
                 callbacks={{
                     handleOkAction: () => navigate('/profile'),

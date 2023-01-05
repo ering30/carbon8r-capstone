@@ -78,26 +78,22 @@ export default function Header(props) {
     const classes = useStyles();
     let navigate = useNavigate();
 
-    const logOff = () => {
-        localStorage.removeItem('currentUser');
-        navigate('/login');
-    }
-
     return <div>
         <HideOnScroll {...props}>
         <AppBar className={classes.appbar} elevation={0} >
             <Toolbar className={classes.appbarWrapper}>
                 <h1 className={classes.appbarTitle}><a className={classes.logoNav} href="/">CARBON8R</a></h1>
-                {/* extra component for user page link/ login */}
-                {currentUser ? 
-                <Button 
+
+                {/* <Button 
                 size="small"
                 disableRipple 
                 className={classes.detailButton} 
                 variant="contained" 
                 onClick={logOff}>
                     Log out
-                    </Button>  : 
+                    </Button>  
+                    </> 
+                    : 
                     <Button 
                     disableRipple 
                     size="small"
@@ -105,7 +101,7 @@ export default function Header(props) {
                     variant="contained" 
                     onClick={() => {navigate('/login') }}>
                         Log in
-                        </Button> }
+                        </Button>  */}
 
                 <IconButton disableRipple>
                     <BasicMenu />

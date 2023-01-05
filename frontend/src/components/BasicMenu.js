@@ -12,6 +12,8 @@ import InfoIcon from '@mui/icons-material/Info';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import GroupIcon from '@mui/icons-material/Group';
+import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -58,10 +60,17 @@ export default function BasicMenu() {
         navigate('/');
         handleClose()
     }
-    // const handleMenuClickLogout = () => {
-    //     logOff()
-    //     handleClose()
-    // }
+
+    const handleMenuClickLogout = () => {
+        logOff()
+        handleClose()
+    }
+
+    const handleMenuClickLogin = () => {
+        navigate('/login');
+        handleClose()
+    }
+
     const handleMenuClickProfile = () => {
         navigate('/profile');
         handleClose()
@@ -72,6 +81,10 @@ export default function BasicMenu() {
         handleClose()
     }
 
+    const logOff = () => {
+        localStorage.removeItem('currentUser');
+        navigate('/login');
+    }
 
     return (
         <div>
@@ -104,6 +117,11 @@ export default function BasicMenu() {
                 {currentUser && currentUser.userAdmin ?
                 <MenuItem name="users" onClick={handleMenuClickUsers}><GroupIcon/>&nbsp;&nbsp;Users</MenuItem>
                 : null}
+                {currentUser ? 
+                <MenuItem name="logout" onClick={handleMenuClickLogout}><LogoutIcon/>&nbsp;&nbsp;Logout</MenuItem>
+                :
+                <MenuItem name="login" onClick={handleMenuClickLogin}><LoginIcon/>&nbsp;&nbsp;Login</MenuItem>
+                }
             </Menu>
         </div>
     );
