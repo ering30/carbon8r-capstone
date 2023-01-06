@@ -2,7 +2,7 @@
 
 CARBON8R is an essential tool for climate-conscious travellers. Use this calculator to cut through misinformation and get credible carbon emissions data for one-way trips between two destinations. Trustworthy data averages for car, bus, train and airplane journeys are based on international GHG protocol and standards.
 
-*Version 1.0 published 6 January 2023*
+*Version 1.0 release 6 January 2023*
 
 ## Features
 
