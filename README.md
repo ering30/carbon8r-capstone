@@ -63,6 +63,8 @@ Both methods will require a mySQL database:
 	Details for admin login:
 	email: admin@gmail.com
 	pw: 1234
+4. Edit the db.config file in backend folder to reflect your db password and username/authorisation. 
+5. Test by logging in through the frontend - if you can enter the site, the database is working!
     
 ## Reference
 
