@@ -13,7 +13,7 @@
     "basepath": "/",
     "tags": [
     {
-        "name": "Erin's Capstone Project",
+        "name": "Erin's Capstone Project API Docs - CARBON8R",
         "description": "API endpoints for database manipulation"
     } 
     ],
@@ -22,40 +22,38 @@
     "produces": ["application/json"],
     "paths": {
         "/users/all":{ 
-            "post": {
-                "tags": ["POST"
+            "get": {
+                "tags": ["USERS / GET All CARBON8R users"
             ],
-            "summary": "", 
+            "summary": "Get all users ordered by user_id", 
             "parameters":[],
             "responses":{ 
                 "200": {
                     "namesList": []
                 } 
+
             }
         }
     },
-    "/characters/getAll":{ 
-            "get": {
-                "tags": ["GET All Characters"
+    "/users/register":{ 
+            "post": {
+                "tags": ["USERS / POST a new user to the database"
             ],
-            "summary": "Returns a list of characters from the databasethat appear in Star Wars Films", 
-            "parameters":[],
-            "responses":{ 
-                "200": {
-                    "response": []
-                } 
-            }
-        }
-    },
-    "/characters/one":{ 
-            "get": {
-                "tags": ["GET Single Character"
-            ],
-            "summary": "Return data for a single character by the ID number, from the database", 
+            "summary": "Add a new user ot the database to enable login", 
             "parameters":[{
-                "name": "id",
-                "in": "query",
-                "description": "character local ID number as an integer e.g. 5"
+                "name": "email",
+                "in": "body",
+                "description": "enter string up to 50 characters"
+            },
+            {
+                "name": "password",
+                "in": "body",
+                "description": "enter string up to 20 characters"
+            },
+            {
+                "name": "username",
+                "in": "body",
+                "description": "enter string up to 20 characters"
             }],
             "responses":{ 
                 "200": {
@@ -64,15 +62,15 @@
             }
         }
     },
-    "/characters/DeleteByID":{ 
+    "/users/deleteOneUser/{user_id}":{ 
             "delete": {
-                "tags": ["DELETE Single Character"
+                "tags": ["USERS / DELETE Single user"
             ],
-            "summary": "Delete data for a single character by the ID number", 
+            "summary": "Delete a user from the database by username", 
             "parameters":[{
-                "name": "id",
-                "in": "query",
-                "description": "character local ID number as an integer e.g. 4"
+                "name": "user_id",
+                "in": "path",
+                "description": "user ID number as an integer e.g. 5"
             }],
             "responses":{ 
                 "200": {
@@ -81,71 +79,15 @@
             }
         }
     },
-    "/characters/UpdateDroids":{ 
-            "post": {
-                "tags": ["UPDATE by species"
-            ],
-            "summary": "Update gender data for all droid characters", 
-            "parameters":[{
-                "name": "gender",
-                "in": "query",
-                "description": "single word gender descriptor e.g. non-binary"
-            }],
-            "responses":{ 
-                "200": {
-                    "response": []
-                } 
-            }
-        }
-    },
-    "/characters/updateFilmNames":{ 
-            "post": {
-                "tags": ["UPDATE film titles"
-            ],
-            "summary": "Adds film titles to character data", 
-            "parameters":[],
-            "responses":{ 
-                "200": {
-                    "response": []
-                } 
-            }
-        }
-    },
-    "/films/all":{ 
-            "post": {
-                "tags": ["POST films"
-            ],
-            "summary": "Loads films data into the database for Episodes 1-6 of Star Wars Films. Required before any GET operations", 
-            "parameters":[],
-            "responses":{ 
-                "200": {
-                    "response": []
-                } 
-            }
-        }
-    },
-    "/films/getAll":{ 
+    "/journeys/allUserJourneys/{userID}":{ 
             "get": {
-                "tags": ["GET films"
+                "tags": ["JOURNEYS / GET journeys "
             ],
-            "summary": "Retrieves all data for Episodes 1-6 of Star Wars Films from database.", 
-            "parameters":[],
-            "responses":{ 
-                "200": {
-                    "response": []
-                } 
-            }
-        }
-    },
-    "/films/one":{ 
-            "get": {
-                "tags": ["GET one film"
-            ],
-            "summary": "Retrieves data for selected film", 
+            "summary": "Get all journeys saved to a single user's profile", 
             "parameters":[{
-                "name": "episode",
-                "in": "query",
-                "description": "single integer representing an episode number between 1 and 6 inclusive."
+                "name": "userID",
+                "in": "path",
+                "description": "user ID number as an integer e.g. 5"
             }],
             "responses":{ 
                 "200": {
@@ -154,51 +96,81 @@
             }
         }
     },
-    "/films/addNew": {
-        "post": {
-        "tags": [
-        "Creation Service"
-        ],
-        "summary": "Add a new film to the database",
-        "parameters": [
-        {
-        "in": "body",
-        "name": "film",
-        "description": "film body with details to create",
-        "schema" : {
-            "type": "object",
-            "required": [
-                "title",
-                "episode_id",
-                "opening_crawl",
-                "director",
-                "release_date"
+    "/journeys/addJourney":{ 
+            "post": {
+                "tags": ["JOURNEYS / ADD single journey"
             ],
-            "properties" : {
-                "title": {
-                    "type": "string"
-                },
-                "episode_id" : {
-                    "type": "number"
-                },
-                "opening_crawl" : {
-                    "type": "string"
-                },
-                "director" : {
-                    "type": "string"
-                },
-                "release_date" : {
-                    "type": "string"
-                }
+            "summary": "Add journey data to the database", 
+            "parameters":[{
+                "name": "userID",
+                "in": "body",
+                "description": "user ID number as an integer e.g. 5"
+            },
+            {
+                "name": "nickname",
+                "in": "body",
+                "description": "string up to 50 characters. Identifier for journey"
+            },
+            {
+                "name": "origin",
+                "in": "body",
+                "description": "string up to 50 characters"
+            },
+            {
+                "name": "origin_name",
+                "in": "body",
+                "description": "string up to 200 characters. Name of place, address, or airport"
+            },
+            {
+                "name": "destination",
+                "in": "body",
+                "description": "string up to 50 characters"
+            },
+            {
+                "name": "destination_name",
+                "in": "body",
+                "description": "string up to 200 characters. Name of place, address, or airport"
+            },
+            {
+                "name": "g_CO2",
+                "in": "body",
+                "description": "Integer value for carbon emissions representing metric grams CO2-e"
+            },
+            {
+                "name": "distance",
+                "in": "body",
+                "description": "Integer value for distance between origin & destination."
+            },
+            {
+                "name": "vehicle_type",
+                "in": "body",
+                "description": "Options: 'airplane', 'Car-Size-Average', 'Bus-LocalAverage', 'Train-National'"
             }
-        }}],
-        "responses": {
-        "200": {
-        "description": "film added successfully"
-                        }
-                    }
-                }
+            ],
+            "responses":{ 
+                "200": {
+                    "response": []
+                } 
             }
+        }
+    },
+    "/journeys/deleteOneJourney/{journey_id}":{ 
+            "delete": {
+                "tags": ["JOURNEYS / DELETE Single journey"
+            ],
+            "summary": "Delete a journey from the database by journey_id", 
+            "parameters":[{
+                "name": "journey_id",
+                "in": "path",
+                "description": "journey ID number as an integer e.g. 5"
+            }],
+            "responses":{ 
+                "200": {
+                    "response": []
+                } 
+            }
+        }
+    }
+    }
 }
-}
-      
+
