@@ -31,9 +31,7 @@ function JourneyListItem(props) {
     const currentUser = JSON.parse(currentUserString);
     const userID= currentUser.user_id
 
-
-
-        //set variables for functions
+    //set variables for functions
     let kgEmissions = journey.g_CO2 / 1000
 
     //delete the journey from DB, in handleDelete inside Dialog 
@@ -64,8 +62,7 @@ function JourneyListItem(props) {
             <ListItemText
                 primary={`${journey.nickname} : ${kgEmissions} kgCO2`} 
                 secondary={
-                    journey.vehicle_type !== 'airplane' && journey.origin_name !== 'undefined' ? `${journey.origin_name} to ${journey.destination_name}: ${journey.tot_distance}km` 
-                    : journey.vehicle_type !== 'airplane' && journey.origin_name === 'undefined' ? `${journey.tot_distance}km`
+                    journey.vehicle_type !== 'airplane' ? `${journey.origin_name} to ${journey.destination_name}: ${journey.tot_distance}km` 
                     : journey.vehicle_type === 'airplane' ? `${journey.origin_name} to ${journey.destination_name}`
                     : ' '}
             />
